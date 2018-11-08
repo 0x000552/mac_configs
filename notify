@@ -1,0 +1,6 @@
+#!/bin/bash
+# Important notes...
+
+osascript -e 'display notification "Remember how little time we'\''re actually given" with title "..." sound name "Purr"'
+
+
