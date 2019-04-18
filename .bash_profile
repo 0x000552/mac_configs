@@ -109,15 +109,24 @@ PATH=$PATH:$HOME/bin:/usr/local/mysql/bin/
 PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
 export PATH
 
-# added by Anaconda3 5.2.0 installer
-export PATH="/Users/artem/anaconda3/bin:$PATH"
-. /Users/artem/anaconda3/etc/profile.d/conda.sh
-export PATH="/usr/local/opt/ncurses/bin:$PATH"
-
-# Activate Anaconda py36 env
-source activate py36
+# Activate Python3 main env
+source ~/mainPython3Env/bin/activate
+echo "Current python3 env: $VIRTUAL_ENV"
 
 
 # ------------------
 # OTHER
 # ------------------
+
+# add this configuration to ~/.bashrc
+export HH_CONFIG=hicolor         # get more colors
+shopt -s histappend              # append new history items to .bash_history
+export HISTCONTROL=ignorespace   # leading space hides commands from history
+export HISTFILESIZE=10000        # increase history file size (default is 500)
+export HISTSIZE=${HISTFILESIZE}  # increase history size (default is 500)
+export PROMPT_COMMAND="history -a; history -n; ${PROMPT_COMMAND}"   # mem/file sync
+# if this is interactive shell, then bind hh to Ctrl-r (for Vi mode check doc)
+if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hh -- \C-j"'; fi
+# if this is interactive shell, then bind 'kill last command' to Ctrl-x k
+if [[ $- =~ .*i.* ]]; then bind '"\C-xk": "\C-a hh -k \C-j"'; fi
+
