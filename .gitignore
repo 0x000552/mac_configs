@@ -1,0 +1,5 @@
+.*
+!.vimrc
+!.bash_profile
+!/.gitignore
+__pycache__
