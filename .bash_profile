@@ -8,7 +8,6 @@
 # Custom alias
 # ------------------
 
-alias mypy="source $HOME/Develop/python/main_venv/bin/activate"
 alias osas="osascript -e"
 
 
@@ -105,9 +104,14 @@ set_prompt() {
 # MySQL
 PATH=$PATH:$HOME/bin:/usr/local/mysql/bin/
 
-# Setting PATH for Python 3.6
-PATH="/Library/Frameworks/Python.framework/Versions/3.6/bin:${PATH}"
-export PATH
+
+# ------------------
+# PYTHON
+# ------------------
+
+# ALias
+alias mypy="source $HOME/Develop/python/main_venv/bin/activate"
+alias jqc="jupyter qtconsole --ConsoleWidget.font_size='12' --style native"
 
 # Activate Python3 main env
 source ~/mainPython3Env/bin/activate
