@@ -2,6 +2,7 @@
 printf "\n\n"
 red=$'\e[1;31m'
 grn=$'\e[1;32m'
+ylw=$'\e[1;33m'
 end=$'\e[0m'
 
 
@@ -30,11 +31,18 @@ chck_strs() {
 }
 
 chck_route() {
-    # chck_route destination gateway [interface]
-    printf "\t$1:\n"
-    rslt=$(route -n get "$1" | grep "gateway.*$" | awk '{$1=$1;print}') # awk remove traling and leading space
-    chck_strs "$rslt" "$2"
-    if [[ ! -z $3 ]]; then
+    # chck_route destination gateway interface
+    if [[ -n $1 ]]; then
+        printf "\t$1:\n"
+    else
+        printf "\t${ylw}[WARN]${end} destination is not defined\n"
+        return 1
+    fi
+    if [[ -n $2 ]]; then
+        rslt=$(route -n get "$1" | grep "gateway.*$" | awk '{$1=$1;print}') # awk remove traling and leading space
+        chck_strs "$rslt" "$2"
+    fi
+    if [[ -n $3 ]]; then
         rslt=$(route -n get "$1" | grep "interface.*$" | awk '{$1=$1;print}') # awk remove traling and leading space
         chck_strs "$rslt" "$3"
     fi
@@ -73,7 +81,8 @@ chck_all
 printf "\nCheck var:\n\tRDP_gateway:\n"
 chck_strs "RDP_gateway: $gateway_rdp_host" ".*"
 
-printf "\nCheckpoint has been launched. Press any key to fix routes and dns.\n"
+endpoint_status=$(pgrep 'Endpoint_Security_VPN' > /dev/null && printf "${grn}ON${end}" || printf "${red}OFF${end}")
+printf "\nEndpoint status: ${endpoint_status}.\n\nPress any key to fix routes and dns.\n"
 read
 
 printf "\n\nFix routes:\n"

@@ -8,6 +8,7 @@
 # ------------------
 alias osas="osascript -e"
 alias grep='grep --color=auto'
+alias vpn_fix='/Users/artem/iCloud/iCloud_main/Develop/git_repos/mac_configs/vpn_dns_and_route_fix.sh'
 
 # ------------------
 # Git Aliases
@@ -73,11 +74,8 @@ prompt spaceship
 # PYTHON
 # ------------------
 # ALias
-alias custom_deactivate="if type deactivate 1>/dev/null; then deactivate; fi"
-alias mypy2="custom_deactivate; source $HOME/Documents/dev_local/python/venvs/py2main_venv/bin/activate"
-alias nspkpy2="custom_deactivate; source $HOME/Documents/dev_local/python/venvs/py2nspk_venv/bin/activate"
 alias mypy3="custom_deactivate; source $HOME/Documents/dev_local/python/venvs/py3main_venv/bin/activate"
-alias jqc="jupyter-qtconsole --ConsoleWidget.font_size='12' --style=base16-tomorrow-night --stylesheet=~/.ipython/tomorrownight.css"
+alias jqc='jupyter qtconsole --style monokai'
 # Activate Python3 main env
 mypy3
 echo "Current python3 env: $VIRTUAL_ENV"
@@ -85,4 +83,4 @@ echo "Current python3 env: $VIRTUAL_ENV"
 # ------------------
 # OTHER
 # ------------------
-
+export EDITOR=vim
