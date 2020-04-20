@@ -6,14 +6,13 @@ ylw=$'\e[1;33m'
 end=$'\e[0m'
 
 
-interface_name="utun2"
 chck_internet_host="google.ru"
 excpt_internet_gateway=$(netstat -rn | ggrep -Pzo '(?<=default)\s*[\d\.]*(?=\s)' | awk '{print $1}')
 
 hostname_rdp="WS1111"
 ip_rdp_host=$(nslookup "$hostname_rdp" | ggrep -Pzo '(?si)(?<=answer).*' | ggrep -Pzo '(?<=Address: )[\.\d]*') # || printf "\n\nError resolve $hostname_rdp to ip\n" && exit
 gateway_rdp_host=$(route -n get "$ip_rdp_host" | grep gateway | awk '{print $2}')
-
+interface_name=$(route -n get "$ip_rdp_host" | grep interface | awk '{print $2}')
 
 chck_strs() {
     read -ra rslt_chck_arr <<< "$1" #split str to array
