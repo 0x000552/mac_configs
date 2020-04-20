@@ -1,4 +1,7 @@
 #/usr/bin/env bash
+
+# TODO add check for scutil --dns and multiline resolv.conf
+
 printf "\n\n"
 red=$'\e[1;31m'
 grn=$'\e[1;32m'
@@ -90,8 +93,8 @@ netstat -rn | grep $interface_name | awk '{print $1" "$2"\n"}' | xargs -n2 sudo 
 sudo route -n add -host "$ip_rdp_host" -interface "$interface_name"
 
 printf "\n\nFix dns:\n"
-networksetup -setdnsservers Wi-Fi "$excpt_internet_gateway"
-networksetup -setsearchdomains Wi-Fi ""
+networksetup -setdnsservers Wi-Fi empty # "$excpt_internet_gateway"
+networksetup -setsearchdomains Wi-Fi empty
 
 chck_all
 
