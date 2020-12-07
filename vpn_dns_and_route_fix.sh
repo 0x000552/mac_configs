@@ -1,21 +1,10 @@
 #/usr/bin/env bash
-
+# set -x
 # TODO add check for scutil --dns and multiline resolv.conf
 
-printf "\n\n"
-red=$'\e[1;31m'
-grn=$'\e[1;32m'
-ylw=$'\e[1;33m'
-end=$'\e[0m'
-
-
-chck_internet_host="google.ru"
-excpt_internet_gateway=$(netstat -rn | ggrep -Pzo '(?<=default)\s*[\d\.]*(?=\s)' | awk '{print $1}')
-
-hostname_rdp="WS1111"
-ip_rdp_host=$(nslookup "$hostname_rdp" | ggrep -Pzo '(?si)(?<=answer).*' | ggrep -Pzo '(?<=Address: )[\.\d]*') # || printf "\n\nError resolve $hostname_rdp to ip\n" && exit
-gateway_rdp_host=$(route -n get "$ip_rdp_host" | grep gateway | awk '{print $2}')
-interface_name=$(route -n get "$ip_rdp_host" | grep interface | awk '{print $2}')
+resolve_dns() {
+  echo "$(nslookup "$1" | ggrep -Pzo '(?<=Name).*\n.*' | ggrep -Pzo '(?<=Address:\s)([0-9.]*)')"
+}
 
 chck_strs() {
     read -ra rslt_chck_arr <<< "$1" #split str to array
@@ -57,7 +46,7 @@ chck_dns() {
     chck_strs "$rslt" "$2"
 }
 
-chck_resolvconf(){
+chck_resolvconf() {
     # chck_resolvconf dns_server
     printf "\t/etc/resolv.conf:\n"
     rslt_chck=$(cat /etc/resolv.conf | grep "nameserver.*$" | awk '{$1=$1;print}')
@@ -76,6 +65,26 @@ chck_all() {
 }
 
 
+printf "\n\n"
+red=$'\e[1;31m'
+grn=$'\e[1;32m'
+ylw=$'\e[1;33m'
+end=$'\e[0m'
+
+chck_internet_host="google.ru"
+excpt_internet_gateway=$(netstat -rn | ggrep -Pzo '(?<=default)\s*[\d\.]*(?=\s)' | awk '{print $1}')
+
+hostname_rdp="WS1111"
+ip_rdp_host=$(resolve_dns "$hostname_rdp")
+hostname_rdp_2="WS1252"
+ip_rdp_host_2=$(resolve_dns "$hostname_rdp_2")
+hostname_rdp_3="WS1718"
+ip_rdp_host_3=$(resolve_dns "$hostname_rdp_3")
+
+gateway_rdp_host=$(route -n get "$ip_rdp_host" | grep gateway | awk '{print $2}')
+interface_name=$(route -n get "$ip_rdp_host" | grep interface | awk '{print $2}')
+
+
 # ================================
 # ============= MAIN =============
 # ================================
@@ -88,9 +97,15 @@ printf "\nEndpoint status: ${endpoint_status}.\n\nPress any key to fix routes an
 read
 
 printf "\n\nFix routes:\n"
-netstat -rn | grep $interface_name | awk '{print $1" "$2"\n"}' | xargs -n2 sudo route -n delete -net
-netstat -rn | grep $interface_name | awk '{print $1" "$2"\n"}' | xargs -n2 sudo route -n delete
-sudo route -n add -host "$ip_rdp_host" -interface "$interface_name"
+if [[ ! -z $interface_name ]]; then
+  netstat -rn | grep $interface_name | awk '{print $1" "$2"\n"}' | xargs -n2 sudo route -n delete -net
+  netstat -rn | grep $interface_name | awk '{print $1" "$2"\n"}' | xargs -n2 sudo route -n delete
+  sudo route -n add -host "$ip_rdp_host" -interface "$interface_name"
+  sudo route -n add -host "$ip_rdp_host_2" -interface "$interface_name"
+  sudo route -n add -host "$ip_rdp_host_3" -interface "$interface_name"
+else
+ printf "\tinterface_name is empty"
+fi
 
 printf "\n\nFix dns:\n"
 networksetup -setdnsservers Wi-Fi empty # "$excpt_internet_gateway"
