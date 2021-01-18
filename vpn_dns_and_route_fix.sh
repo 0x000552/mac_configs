@@ -3,7 +3,8 @@
 # TODO add check for scutil --dns and multiline resolv.conf
 
 resolve_dns() {
-  echo "$(nslookup "$1" | ggrep -Pzo '(?<=Name).*\n.*' | ggrep -Pzo '(?<=Address:\s)([0-9.]*)')"
+  resolved_ip="$(dig +short +time=3 +tries=1 "$1" | ggrep -Pm 1 "(?<=^\d).*")"
+  echo "$resolved_ip"
 }
 
 chck_strs() {
@@ -74,12 +75,16 @@ end=$'\e[0m'
 chck_internet_host="google.ru"
 excpt_internet_gateway=$(netstat -rn | ggrep -Pzo '(?<=default)\s*[\d\.]*(?=\s)' | awk '{print $1}')
 
-hostname_rdp="WS1111"
+hostname_rdp="WS1111.nspk.ru"
 ip_rdp_host=$(resolve_dns "$hostname_rdp")
-hostname_rdp_2="WS1252"
+hostname_rdp_2="WS1252.nspk.ru"
 ip_rdp_host_2=$(resolve_dns "$hostname_rdp_2")
-hostname_rdp_3="WS1718"
+hostname_rdp_3="WS1718.nspk.ru"
 ip_rdp_host_3=$(resolve_dns "$hostname_rdp_3")
+hostname_hrzn="horizon.nspk.ru"
+ip_hrzn_host=$(resolve_dns "$hostname_hrzn")
+hostname_hrzn_pc="VDI04003.nspk.ru"
+ip_hrzn_pc_host=$(resolve_dns "$hostname_hrzn_pc")
 
 gateway_rdp_host=$(route -n get "$ip_rdp_host" | grep gateway | awk '{print $2}')
 interface_name=$(route -n get "$ip_rdp_host" | grep interface | awk '{print $2}')
@@ -103,6 +108,12 @@ if [[ ! -z $interface_name ]]; then
   sudo route -n add -host "$ip_rdp_host" -interface "$interface_name"
   sudo route -n add -host "$ip_rdp_host_2" -interface "$interface_name"
   sudo route -n add -host "$ip_rdp_host_3" -interface "$interface_name"
+  sudo route -n add -host "$ip_hrzn_host" -interface "$interface_name"
+  sudo route -n add -host "$ip_hrzn_pc_host" -interface "$interface_name"
+  if [[ -n $ip_hrzn_host ]]; then
+    printf "\tFix etc hosts for $hostname_hrzn $ip_hrzn_host"
+    sudo perl -pe "s/([0-9\.]+)(?=\s+$hostname_hrzn)/$ip_hrzn_host/g" -i /etc/hosts
+  fi
 else
  printf "\tinterface_name is empty"
 fi
