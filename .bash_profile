@@ -111,7 +111,7 @@ PATH=$PATH:$HOME/bin:/usr/local/mysql/bin/
 
 # ALias
 alias mypy="source $HOME/Develop/python/main_venv/bin/activate"
-alias jqc="jupyter qtconsole --ConsoleWidget.font_size='12' --style native"
+alias jqc="jupyter-qtconsole --ConsoleWidget.font_size='12' --style=base16-tomorrow-night --stylesheet=~/.ipython/tomorrownight.css"
 
 # Activate Python3 main env
 source ~/mainPython3Env/bin/activate
@@ -134,3 +134,4 @@ if [[ $- =~ .*i.* ]]; then bind '"\C-r": "\C-a hh -- \C-j"'; fi
 # if this is interactive shell, then bind 'kill last command' to Ctrl-x k
 if [[ $- =~ .*i.* ]]; then bind '"\C-xk": "\C-a hh -k \C-j"'; fi
 
+export EDITOR=vim

@@ -48,9 +48,9 @@ filetype off                  " required
 
 " General
 set number  " Show line numbers
-set linebreak " Break lines at word (requires Wrap lines)
+"set linebreak " Break lines at word (requires Wrap lines)
 set showbreak=+++ " Wrap-broken line prefix
-set textwidth=100 " Line wrap (number of cols)
+"set textwidth=100 " Line wrap (number of cols)
 set showmatch " Highlight matching brace
 set visualbell  " Use visual bell (no beeping)
  
@@ -79,16 +79,16 @@ set mouse=a " activate mouse
 
 " Autoload NERDTree if no file specified
 
-autocmd StdinReadPre * let s:std_in=1
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+"autocmd StdinReadPre * let s:std_in=1
+"autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Auto close NERDTree if no more files
 
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+"autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " Show hidden files in NERDTree
 
-let NERDTreeShowHidden=1
+"let NERDTreeShowHidden=1
 
 syntax on
 
