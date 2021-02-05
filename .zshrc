@@ -8,7 +8,7 @@
 # ------------------
 alias osas="osascript -e"
 alias grep='grep --color=auto'
-alias vpn_fix='/Users/artem/iCloud/iCloud_main/Develop/git_repos/mac_configs/vpn_dns_and_route_fix.sh'
+alias vpn_fix='/Users/artafo/Develop/git_repos/mac_configs/vpn_dns_and_route_fix.sh'
 
 # ------------------
 # Git Aliases
@@ -63,6 +63,7 @@ alias ls='ls -lGH'
 # PROMPT
 # ------------------
 # Set Spaceship ZSH as a prompt
+fpath=($fpath "/Users/artafo/.zfunctions")
 autoload -U promptinit; promptinit
 prompt spaceship
 
@@ -74,8 +75,7 @@ prompt spaceship
 # PYTHON
 # ------------------
 # ALias
-alias mypy3="source $HOME/Documents/dev_local/python/venvs/py3main_venv/bin/activate"
-alias mypy38="source $HOME/Documents/dev_local/python/venvs/py38django_venv/bin/activate"
+alias mypy3="source $HOME/Develop/python/venvs/py3main_venv/bin/activate"
 alias jqc='jupyter qtconsole --style monokai'
 # Activate Python3 main env
 mypy3
