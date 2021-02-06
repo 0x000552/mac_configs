@@ -82,6 +82,13 @@ mypy3
 echo "Current python3 env: $VIRTUAL_ENV"
 
 # ------------------
+# ZSH PLUGINS
+# ------------------
+source /opt/homebrew/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+source /opt/homebrew/share/zsh-autosuggestions/zsh-autosuggestions.zsh
+
+# ------------------
 # OTHER
 # ------------------
 export EDITOR=vim
+
