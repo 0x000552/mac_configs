@@ -75,7 +75,7 @@ prompt spaceship
 # PYTHON
 # ------------------
 # ALias
-alias mypy3="source $HOME/Develop/python/venvs/py3main_venv/bin/activate"
+alias mypy3="source $HOME/Develop/python/venvs/py3_main_venv/bin/activate"
 alias jqc='jupyter qtconsole --style monokai'
 # Activate Python3 main env
 mypy3
